@@ -4,7 +4,7 @@
 ])
 
 @section('content')
-    <div class="card">
+<div class="card">
         <div class="card-header text-end">
             <h5 class="card-title">Enregistrer une visite</h5>
         </div>

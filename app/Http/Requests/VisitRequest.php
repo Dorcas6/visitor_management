@@ -17,7 +17,7 @@ class VisitRequest extends FormRequest
             "visitor_id" => ["required", "exists:visitors,id"],
             "tenant_id" => ["required", "exists:tenants,id"],
             "time_in" => ["required", "date"],
-            "time_out" => ["required", "date"],
+            "time_out" => ["nullable", "date"],
             "purpose" => ["required", "string", "max:255"]
         ];
     }
@@ -28,7 +28,8 @@ class VisitRequest extends FormRequest
             "visitor_id" => "Le visiteur",
             "tenant_id" => "Le locataire",
             "user_id" => "L'utilisateur",
-            "arrival_time" => "L'heure d'arrivée",
+            "time_in" => "L'heure d'arrivée",
+            "time_out" => "L'heure de départ",
             "purpose" => "Le motif de la visite"
         ];
     }

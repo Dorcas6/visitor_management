@@ -21,7 +21,7 @@
 <body class="bg-gray-100">
 
 <div class="flex min-h-screen">
-
+    <!-- @dump(auth()->user()) -->
     <!-- Sidebar -->
     @include("partials._side-bar")
 
@@ -40,8 +40,10 @@
         </main>
 
     </div>
+    @include('partials._delete-modal')
 </div>
 
 </body>
+@include("partials._modal-script")
 @yield("script")
 </html>

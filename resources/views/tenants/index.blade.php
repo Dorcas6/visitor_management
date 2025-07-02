@@ -5,6 +5,14 @@
 
 @section('content')
 
+<div class="mb-6">
+    <div class="flex flex-wrap justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold text-gray-800">Gestion des locataires</h2>
+        <a href="{{ route('tenants.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            <i class="fas fa-plus mr-2"></i>Nouveau locataire
+        </a>
+    </div>
+
 <form action="{{ route('tenants.index') }}" method="GET" class="w-full mb-6">
   <div class="flex">
     <input
@@ -25,22 +33,22 @@
 
     <div class="bg-white shadow-md rounded-lg p-6">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Appartement</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre de visites</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left font-medium text-gray-700">Nom</th>
+                        <th class="px-6 py-3 text-left font-medium text-gray-700">Appartement</th>
+                        <th class="px-6 py-3 text-left font-medium text-gray-700">Nombre de visites</th>
+                        <th class="px-6 py-3 text-left font-medium text-gray-700">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($tenants as $tenant)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $tenant->name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $tenant->apartment }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $tenant->visits_count }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    @forelse($tenants as $tenant)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 text-gray-800">{{ $tenant->name }}</td>
+                            <td class="px-6 py-4 text-gray-800">{{ $tenant->apartment }}</td>
+                            <td class="px-6 py-4 text-gray-800">{{ $tenant->visits_count }}</td>
+                            <td class="px-6 py-4 text-gray-800">
                                 <div class="relative inline-block text-left">
                                     <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" onclick="toggleDropdown(this)">
                                         <i class="fas fa-ellipsis-v"></i>
@@ -53,27 +61,25 @@
                                             <a href="{{ route('tenants.show', $tenant) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                                 <i class="far fa-eye mr-2"></i>Voir
                                             </a>
-                                            <a href="javascript:void(0);" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                                <i class="far fa-trash-alt mr-2"></i>Supprimer
-                                            </a>
+                                            <button type="button"
+                                            data-action="{{ route('tenants.destroy', $tenant) }}"
+                                            data-role="delete-model"
+                                            class="w-full text-left px-4 py-2 text-sm text-red-600">
+                                        <i class="fa fa-trash"></i> Supprimer
+                                    </button>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                        </tr>
-                        @include('partials._delete-modal', ['action' => route('tenants.destroy', $tenant)])
-                    @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    Aucun locataire enregistré.
+                                </td>
+                            </tr>
+                        @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-@endsection
-
-@section('script')
-<script>
-    function toggleDropdown(button) {
-        const dropdown = button.nextElementSibling;
-        dropdown.classList.toggle('hidden');
-    }
-</script>
 @endsection

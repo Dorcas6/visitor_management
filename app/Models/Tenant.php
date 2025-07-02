@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Tenant extends Model
+class Tenant extends Authenticatable
 {
 	protected $fillable = [
 		'name',
 		'email',
 		'phone_number',
-		'apartment'
+		'apartment',
+		'password'
 	];
 
 	public function visits(): HasMany

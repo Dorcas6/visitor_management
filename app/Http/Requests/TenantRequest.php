@@ -17,8 +17,9 @@ class TenantRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', 'min:2'],
             'apartment' => ['required', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:255', Rule::unique('tenants')->ignore($this->tenant)],
+            'phone' => ['required', 'string', 'max:255', Rule::unique('tenants')->ignore($this->tenant)],
             'id_card_number' => ['nullable', 'string', 'max:255', Rule::unique('tenants')->ignore($this->tenant)],
+            'email' => ['required', 'string', 'max:255', 'email', Rule::unique('tenants')->ignore($this->tenant)],
         ];
     }
 
@@ -28,7 +29,8 @@ class TenantRequest extends FormRequest
             'name' => 'Le nom du locataire',
             'apartment' => "L'appartement",
             'phone' => 'Le numéro de téléphone',
-            'id_card_number' => 'Le numéro de CNI'
+            'id_card_number' => 'Le numéro de CNI',
+            'email' => 'L\'adresse email'   
         ];
     }
 }

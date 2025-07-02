@@ -29,7 +29,7 @@
 
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700">Adresse e-mail</label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                    <input placeholder=" Veuillez entrer votre adresse e-mail" type="email" name="email" value="{{ old('email') }}" required autofocus
                         class="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     @error('email')
                         <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
@@ -38,12 +38,32 @@
 
                 <div class="mb-4">
                     <label for="password" class="block text-gray-700">Mot de passe</label>
-                    <input id="password" type="password" name="password" required
+                    <input placeholder=" Veuillez entrer votre mot de passe" id="password" type="password" name="password" required
                         class="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     @error('password')
                         <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div>
+    <span class="block text-sm font-medium text-gray-700 mb-1 text-center">Choisissez votre profil</span>
+    <div class="flex space-x-8 mb-3 justify-center">
+
+        <label class="inline-flex items-center">
+            <input type="radio" name="profile" value="agent" class="text-indigo-600 border-gray-300 focus:ring-indigo-500" required>
+            <span class="ml-2 text-gray-700">Agent de sécurité</span>
+        </label>
+
+        <label class="inline-flex items-center">
+            <input type="radio" name="profile" value="locataire" class="text-indigo-600 border-gray-300 focus:ring-indigo-500" required>
+            <span class="ml-2 text-gray-700">Locataire</span>
+        </label>
+        @error('profile')
+            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
+
 
                 <div class="mb-4 flex items-center justify-between">
                     <label class="inline-flex items-center">

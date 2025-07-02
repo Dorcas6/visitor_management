@@ -4,10 +4,11 @@
 ])
 
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-bold mb-6">Ajouter un locataire</h2>
+        <div class="card">
+        <div class="card-header text-end">
+            <h5 class="card-title">Ajouter un locataire</h5>
         </div>
+        <div class="card-body">
 
         <div class="space-y-6">
             @include('tenants._form', [
@@ -17,5 +18,5 @@
             ])
         </div>
 
-    </div>
+        </div>
 @endsection

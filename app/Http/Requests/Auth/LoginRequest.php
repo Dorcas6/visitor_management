@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Tenant;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'profile' => ['required', 'string', 'in:agent,locataire'],
         ];
     }
 
@@ -41,7 +43,27 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // if ($this->input('profile') == 'Agent de sécurité') {
+        //     if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        //         RateLimiter::hit($this->throttleKey());
+
+        //         throw ValidationException::withMessages([
+        //             'email' => trans('auth.failed'),
+        //         ]);
+        //     }
+        // } else {
+        //     if (!Auth::guard('tenant')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        //         RateLimiter::hit($this->throttleKey());
+
+        //         throw ValidationException::withMessages([
+        //             'email' => trans('auth.failed'),
+        //         ]);
+        //     }
+        // }
+
+        $guard = $this->input('profile') == 'agent' ? "web" : "tenants";
+
+        if (!Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -59,7 +81,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -80,6 +102,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

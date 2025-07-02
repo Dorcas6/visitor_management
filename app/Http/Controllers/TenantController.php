@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TenantRequest;
 use App\Models\Tenant;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class TenantController extends Controller
@@ -23,7 +24,10 @@ class TenantController extends Controller
     public function store(TenantRequest $request): RedirectResponse
     {
         // dd($request->validated());
-        Tenant::query()->create($request->validated());
+        Tenant::query()->create([
+            ...$request->validated(),
+            'password' => Hash::make("password") // Une fois que le systeme de mail sera mis en place, le mot de passe généré sera envoyé au locataire
+        ]);
 
         return to_route("tenants.index")->with("success", "Locataire enregistré avec succès.");
     }

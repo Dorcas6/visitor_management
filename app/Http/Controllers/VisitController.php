@@ -13,10 +13,41 @@ use Illuminate\View\View;
 
 class VisitController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('visits.index')
-            ->with('visits', Visit::query()->with(['visitor', 'tenant', 'user'])->get());
+        $query = Visit::query()
+            ->with(['visitor', 'tenant', 'user'])
+            ->latest('time_in');
+
+        // Filtrer par statut si spécifié
+        if ($request->has('status')) {
+            if ($request->status === 'ongoing') {
+                $query->whereNull('time_out');
+            } elseif ($request->status === 'completed') {
+                $query->whereNotNull('time_out');
+            }
+        } else {
+            // Par défaut, ne montrer que les visites en cours
+            $query->whereNull('time_out');
+        }
+
+        // Recherche
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->whereHas('visitor', function($q) use ($search) {
+                    $q->where('first_name', 'like', "%{$search}%")
+                      ->orWhere('last_name', 'like', "%{$search}%");
+                })->orWhereHas('tenant', function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('apartment', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $visits = $query->paginate(10);
+
+        return view('visits.index', compact('visits'));
     }
 
     public function create(): View
@@ -71,6 +102,22 @@ class VisitController extends Controller
     {
         $visit->update($request->validated());
         return to_route('visits.index')->with('success', 'Données de la visite mises à jour.');
+    }
+
+    /**
+     * Marquer l'heure de départ d'une visite
+     */
+    public function markDeparture(Visit $visit): RedirectResponse
+    {
+        if ($visit->time_out) {
+            return back()->with('error', 'Le départ a déjà été enregistré pour cette visite.');
+        }
+
+        $visit->update([
+            'time_out' => now()
+        ]);
+
+        return back()->with('success', 'Heure de départ enregistrée avec succès.');
     }
 
     public function destroy(Visit $visit): RedirectResponse
