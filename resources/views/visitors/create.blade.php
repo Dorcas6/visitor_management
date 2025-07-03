@@ -4,17 +4,15 @@
 ])
 
 @section('content')
-<div class="card">
+    <div class="card">
         <div class="card-header text-end">
             <h5 class="card-title">Ajouter un visiteur</h5>
         </div>
-        <div class="space-y-6">
-
-                @include('visitors._form', [
-                    "method" => "POST",
-                    "action" => route('visitors.store'),
-                ])
-            </div>
+        <div class="card-body">
+            @include('visitors._form', [
+                "method" => "POST",
+                "action" => route('visitors.store'),
+            ])
+        </div>
     </div>
-</div>
 @endsection
