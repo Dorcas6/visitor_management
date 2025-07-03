@@ -48,29 +48,22 @@
                             <td class="px-6 py-4 text-gray-800">{{ $tenant->name }}</td>
                             <td class="px-6 py-4 text-gray-800">{{ $tenant->apartment }}</td>
                             <td class="px-6 py-4 text-gray-800">{{ $tenant->visits_count }}</td>
-                            <td class="px-6 py-4 text-gray-800">
-                                <div class="relative inline-block text-left">
-                                    <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" onclick="toggleDropdown(this)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="hidden absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10 dropdown-menu">
-                                        <div class="py-1">
-                                            <a href="{{ route('tenants.edit', $tenant) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                <i class="far fa-edit mr-2"></i>Modifier
-                                            </a>
-                                            <a href="{{ route('tenants.show', $tenant) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                <i class="far fa-eye mr-2"></i>Voir
-                                            </a>
-                                            <button type="button"
-                                            data-action="{{ route('tenants.destroy', $tenant) }}"
-                                            data-role="delete-model"
-                                            class="w-full text-left px-4 py-2 text-sm text-red-600">
-                                        <i class="fa fa-trash"></i> Supprimer
-                                    </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                            <div class="flex justify-right space-x-2">
+                                <a href="{{ route('tenants.show', $tenant) }}" class="text-blue-600 hover:text-blue-900 mr-2">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a href="{{ route('tenants.edit', $tenant) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                <button type="button" 
+                                        data-action="{{ route('tenants.destroy', $tenant) }}"
+                                        data-role="delete-model"
+                                        class="text-red-600 hover:text-red-900">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
                         @empty
                             <tr>
                                 <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">

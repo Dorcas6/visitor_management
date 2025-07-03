@@ -56,25 +56,20 @@
                         <td class="px-6 py-4 text-gray-800">{{ $user->email }}</td>
                         <td class="px-6 py-4 text-gray-800">{{ $user->created_at->translatedFormat('d/m/Y H:i') }}</td>
                         <td class="px-6 py-4 text-gray-800">{{ $user->visits_count }}</td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="relative inline-block text-left">
-                               
-                                <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" onclick="toggleDropdown(this)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-
-                                <div class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10 dropdown-menu">
-                                    <a href="{{ route('users.edit', $user) }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fa fa-pencil"></i> Modifier</a>
-                                    <a href="{{ route('users.show', $user) }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fa fa-eye"></i> Voir</a>
-                                    <button type="button"
-                                            data-action="{{ route('users.destroy', $user) }}"
-                                            data-role="delete-model"
-                                            class="w-full text-left px-4 py-2 text-sm text-red-600">
-                                        <i class="fa fa-trash"></i> Supprimer
-                                    </button>
-                                </div>
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                            <div class="flex justify-center space-x-2">
+                                <a href="{{ route('users.show', $user) }}" class="text-blue-600 hover:text-blue-900 mr-2">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a href="{{ route('users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                <button type="button" 
+                                        data-action="{{ route('users.destroy', $user) }}"
+                                        data-role="delete-model"
+                                        class="text-red-600 hover:text-red-900">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>

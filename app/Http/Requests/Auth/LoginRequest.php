@@ -63,7 +63,11 @@ class LoginRequest extends FormRequest
 
         $guard = $this->input('profile') == 'agent' ? "web" : "tenants";
 
+        // dd($guard, Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember')), auth()->user());
+
         if (!Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+
+            dd("ici");
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
