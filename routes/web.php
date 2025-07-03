@@ -4,9 +4,13 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+
 Route::middleware('auth:web,tenants')->group(function () {
-    Route::view('/', 'base')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::redirect('/', '/dashboard');
+    // Route::view('/', 'base')->name('dashboard');
     // Route::get('/', function () {
     //     dd(auth()->user());
     // })->name('dashboard');
@@ -33,3 +37,5 @@ Route::middleware('auth:tenants')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+?>

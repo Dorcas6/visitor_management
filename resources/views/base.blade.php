@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Gestion des Visiteurs</title>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cAx4FFnrc+ljYedHI6A1vKKkZ6TKEPSMJoVWjL" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
         function toggleMenuDropdown(id) {
             const dropdown = document.getElementById(id);
-            const icon = document.querySelector(`button[onclick='toggleMenuDropdown("${id}")'] i`);
+            const icon = document.querySelector(`button[onclick='toggleMenuDropdown("${id}")'] i:last-child`);
             
             dropdown.classList.toggle('hidden');
             icon.classList.toggle('fa-chevron-down');
@@ -17,7 +19,7 @@
         }
     </script>
     @include("partials._font-awesome")
-   </head>
+</head>
 <body class="bg-gray-100">
 
 <div class="flex min-h-screen">
