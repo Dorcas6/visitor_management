@@ -8,9 +8,11 @@
 <div class="mb-6">
     <div class="flex flex-wrap justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-800">Gestion des visiteurs</h2>
-        <a href="{{ route('visitors.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-            <i class="fas fa-plus mr-2"></i>Nouveau Visiteur
-        </a>
+        @if(!auth("tenants")->check())
+            <a href="{{ route('visitors.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                <i class="fas fa-plus mr-2"></i>Nouveau Visiteur
+            </a>
+        @endif
     </div>
 
 <!-- Barre de recherche -->

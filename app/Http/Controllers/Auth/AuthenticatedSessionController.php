@@ -28,23 +28,33 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if(auth("tenants")->user()){
-            return redirect()->intended(route('tenants.dashboard', absolute: false));
+        // Vérifier si l'utilisateur est un locataire
+        if (auth('tenants')->check()) {
+            // dd("locataire"); 
+            return to_route('tenants.dashboard');
+        }
+        
+        // Si c'est un agent de sécurité
+        if (auth('web')->check()) {
+            // dd("agent");
+            return redirect()->intended(route('dashboard', absolute: false));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirection par défaut si aucun des cas ci-dessus
+        return redirect('/');
     }
-
 
     /**
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard()->logout();
+        // Déterminer la garde active
+        $guard = auth('tenants')->check() ? 'tenants' : 'web';
+        
+        Auth::guard($guard)->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

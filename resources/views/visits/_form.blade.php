@@ -78,7 +78,7 @@
                                 <i class="fas fa-clock text-gray-400"></i>
                             </div>
                             <input type="datetime-local" name="time_in" id="time_in"
-                                   value="{{ old('time_in', $visit->time_in ? \Carbon\Carbon::parse($visit->time_in)->format('Y-m-d\TH:i') : '') }}"
+                                   value="{{ old('time_in', $visit->exists ? \Carbon\Carbon::parse($visit->time_in)->format('Y-m-d\TH:i') : now()->format('Y-m-d\TH:i')) }}"
                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                    required>
                         </div>
