@@ -60,19 +60,30 @@ class VisitController extends Controller
         return view('visits.index', compact('visits'));
     }
 
+    // public function create()
+    // {
+    //     // $this->authorize('create', Visit::class);
+        
+    //     $visitors = Visitor::orderBy('last_name')->get();
+    //     $tenants = Tenant::orderBy('name')->get();
+        
+    //     return view('visits.create', compact('visitors', 'tenants'));
+    // }
+
     public function create()
-    {
-        $this->authorize('create', Visit::class);
-        
-        $visitors = Visitor::orderBy('last_name')->get();
-        $tenants = Tenant::orderBy('name')->get();
-        
-        return view('visits.create', compact('visitors', 'tenants'));
-    }
+{
+    // $this->authorize('create', Visit::class);
+    
+    $visitors = Visitor::orderBy('last_name')->get();
+    $tenants = Tenant::orderBy('name')->get();
+    $visit = new Visit(); // Crée une nouvelle instance de Visit
+    
+    return view('visits.create', compact('visitors', 'tenants', 'visit')); // Ajoutez $visit à compact
+}
 
     public function store(VisitRequest $request): RedirectResponse
     {
-        $this->authorize('create', Visit::class);
+        // $this->authorize('create', Visit::class);
         
         $data = $request->validated();
         $data['user_id'] = Auth::id();
@@ -101,7 +112,7 @@ class VisitController extends Controller
 
     public function edit(Visit $visit): View
     {
-        $this->authorize('update', $visit);
+       // $this->authorize('update', $visit);
         
         $visitors = Visitor::orderBy('last_name')->get();
         $tenants = Tenant::orderBy('name')->get();
@@ -111,7 +122,7 @@ class VisitController extends Controller
 
     public function update(VisitRequest $request, Visit $visit): RedirectResponse
     {
-        $this->authorize('update', $visit);
+       // $this->authorize('update', $visit);
         
         $data = $request->validated();
         
@@ -128,7 +139,7 @@ class VisitController extends Controller
 
     public function markDeparture(Visit $visit): RedirectResponse
     {
-        $this->authorize('update', $visit);
+       // $this->authorize('update', $visit);
         
         if ($visit->time_out) {
             return back()->with('warning', 'La visite a déjà été clôturée.');
@@ -144,7 +155,7 @@ class VisitController extends Controller
 
     public function destroy(Visit $visit): RedirectResponse
     {
-        $this->authorize('delete', $visit);
+       // $this->authorize('delete', $visit);
         
         $visit->delete();
         
